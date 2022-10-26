@@ -1,0 +1,99 @@
+#include <iostream>
+
+using namespace std;
+
+// For this homework, you are going to implement an extendable vector based queue that 
+// uses "jump" trick to save space. 
+// Finish function 
+//              front() that prints the first element in the queue
+//              deque() that dequeues the queue
+//          	enque(val) that enqueues val to the queue
+//              print_vect() that prints out vect_que.
+// Demonstrate that your code works in main.
+// Refer to class PPT if you forgot all the different cases. 
+
+template <class T>
+class vect_queue {
+	std::vector<T> vect_que;
+	size_t size_;
+	int que_front_;
+public:
+	template <class T>
+	vect_queue(T val) {
+		vect_que.push_back(val);
+		size_ = 1;
+		que_front_ = 0;
+	}
+	T front(){
+        if(size() == 0){
+            throw std::out_of_range("empty queue");
+        }
+        return vect_queue[que_front_];
+    } 
+	void deque(){
+        if (size() == 0){
+            throw std::out_of_range("empty queue");
+        }
+        que_front_=(que_front_ + 1) % vect_queue.size();
+        --size_;
+        if (vect_queue.size() >= (3*size_)){
+            resize();
+        }
+    };
+	void enque(T val){
+        if((size_ + 1) > vector_queue.size()){
+            resize();
+        }
+        size_t i = (que_front_ + size_) % vector_queue.size();
+        vector_queue[i] = val;
+        ++size_;
+    };
+	void print_vect() const;
+};
+
+
+
+int main()
+{   
+    //Demonstrate your code works by adding/removing values in a vect_que class 
+    //object. Print out your result.
+    //You should include front index of queue, back index of queue, and the entire
+    //vector (not queue) for each case.
+   
+    //case 1: add to an empty queue
+    vect_queue(0);
+    enque(1);
+    //case 2: add to a non-empty queue without jump 
+    vect_queue(3);
+    enque(1);
+    //case 3: add to a non-empty queue with a jump
+    vect_queue(3);
+    enque(1);
+    enque(2);
+    deque();
+    enque(3);
+    deque();
+    enque(4);
+    //case 4: remove from a queue with number of elements > 1 
+    //        and que.front not at vect.back
+    vect_queue(3);
+    enque(1);
+    deque();
+    front(0);
+    //case 5: remove from a queue with number of elements > 1 
+    //        and que.front at vect.back
+    vect_queue(3);
+    enque(1);
+    enque(2);
+    deque();
+    enque(3);
+    front(0);
+    //case 6: remove from a queue with 1 element in it and que.front 
+    //        not at vect[0]
+    vect_queue(1);
+    deque();
+    
+    cout<<"\nprogram ends here.\n";
+
+    return 0;
+}
